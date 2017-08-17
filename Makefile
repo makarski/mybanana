@@ -15,6 +15,7 @@ CNT_NAME_DB = mybanana-db
 all: build
 
 deps:
+	$(GO) get -u github.com/go-sql-driver/mysql
 	$(GO) get -u github.com/go-chi/chi
 	$(GO) get -u github.com/go-gorp/gorp
 	$(GO) get -u github.com/kelseyhightower/envconfig
@@ -48,4 +49,4 @@ config:
 # 	todo
 
 version:
-	# $(ECHO)	`git log -n 1 --pretty=format:"%H"` > $(REVISION_NAME)
+	# $(ECHO) `git log -n 1 --pretty=format:"%H"` > $(REVISION_NAME)
