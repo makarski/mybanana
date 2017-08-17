@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  mybanana-api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: ${CNT_NAME_APP}
+    environment:
+      PORT: 80
+      DB_DSN: 'root:milkshake@tcp(mysql:3306)/mybanana?charset=utf8&parseTime=true'
+    expose:
+      - '80'
+    ports:
+      - '8000:80'
+    depends_on:
+      - mysql
+
+  mysql:
+    build:
+      context: .
+      dockerfile: Dockerfile-MariaDB
+    image: mybanana-mariadb
+    container_name: ${CNT_NAME_DB}
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: milkshake
