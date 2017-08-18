@@ -5,9 +5,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/go-chi/chi"
-
 	db "github.com/makarski/mybanana/db/banana"
+	"github.com/makarski/mybanana/handler"
 	"github.com/makarski/mybanana/log"
 )
 
@@ -16,21 +15,25 @@ type (
 	// http.Handler interface
 	// and serves GET banana requests
 	GetBananaHandler struct {
-		finder db.BananaFinder
+		finder      db.BananaFinder
+		paramReader handler.URLParamReader
 	}
 )
 
 // NewGetBananaHandler inits and returns an instance
 // of GetBananaHandler
-func NewGetBananaHandler(finder db.BananaFinder) http.Handler {
-	return &GetBananaHandler{finder}
+func NewGetBananaHandler(
+	finder db.BananaFinder,
+	paramReader handler.URLParamReader,
+) http.Handler {
+	return &GetBananaHandler{finder, paramReader}
 }
 
 // ServeHTTP implements http.Handler interface
 func (h *GetBananaHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	errfmt := "GetBananaHandler: %s"
 
-	bananaIDStr := chi.URLParam(req, "bananaID")
+	bananaIDStr := h.paramReader.Read(req, "bananaID")
 	bananaID, err := strconv.ParseUint(bananaIDStr, 10, 64)
 	if err != nil {
 		log.Error.Printf(errfmt, err)

@@ -9,6 +9,7 @@ import (
 	"github.com/makarski/mybanana/config"
 	"github.com/makarski/mybanana/db"
 	dbb "github.com/makarski/mybanana/db/banana"
+	"github.com/makarski/mybanana/handler"
 	"github.com/makarski/mybanana/handler/banana"
 	"github.com/makarski/mybanana/log"
 )
@@ -25,10 +26,11 @@ func main() {
 	}
 
 	bananaFinder := dbb.NewBananaFinder(dbMap)
+	urlReader := handler.NewURLParamReader()
 
 	router := chi.NewRouter()
 	router.Route("/bananas", func(r chi.Router) {
-		r.Get("/{bananaID:[0-9]+}", banana.NewGetBananaHandler(bananaFinder).ServeHTTP)
+		r.Get("/{bananaID:[0-9]+}", banana.NewGetBananaHandler(bananaFinder, urlReader).ServeHTTP)
 	})
 
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.Port), router); err != nil {
