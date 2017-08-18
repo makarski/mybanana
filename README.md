@@ -20,6 +20,17 @@ make stop
 make build
 ```
 
+Dependencies
+------------
+
+#### Depends ON
+- mysql (maria db)
+- github.com/...
+
+#### Known Clients
+- github.com/...
+
+
 Project structure
 ------------------
 
@@ -28,13 +39,18 @@ Project structure
 │   └── config.go                       // config load and deserialization logic
 ├── db
 │   ├── banana                          // db manager
+│   │   ├── mocks
+│   │   │   └── BananaFinder.go
 │   │   └── banana.go
 │   └── db.go                           // db connection and ORM mapping
 ├── handler
 │   ├── banana
 │   │   ├── banana.go
-│   │   └── get_banana_handler.go
-│   └── handler.go                      // business logic (common for all handlers)
+│   │   ├── get_banana_handler.go
+│   │   └── get_banana_handler_test.go
+│   ├── mocks
+│   │   └── URLParamReader.go
+│   └── handler.go                      // business logic
 ├── log
 │   └── log.go
 ├── migrations                          // db migrations
@@ -45,5 +61,17 @@ Project structure
 ├── README.md
 ├── db_schema_setup.sql                 // db schema setup
 ├── docker-compose.yml
+├── glide.lock
+├── glide.yaml
 └── main.go                             // app entry point
 ```
+
+Consideration Points
+--------------------
+- Readme structure (setup, run, migrate, access docs)
+- Dependency Injection (Interfaces)
+- Middleware Usage
+- Package Isolation
+- RESTful Endpoints, Status Codes
+- Error Handling (format)
+- CLI helpers, migrations
