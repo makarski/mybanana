@@ -35,35 +35,37 @@ Project structure
 ------------------
 
 ```
-├── config
-│   └── config.go                       // config load and deserialization logic
-├── db
-│   ├── banana                          // db manager
+.
+├── pkg
+│   ├── config
+│   │   └── config.go
+│   ├── db
+│   │   ├── banana
+│   │   │   ├── mocks
+│   │   │   └── banana.go
+│   │   └── db.go
+│   ├── handler
+│   │   ├── banana
+│   │   │   ├── banana.go
+│   │   │   ├── get_banana_handler.go
+│   │   │   └── get_banana_handler_test.go
 │   │   ├── mocks
-│   │   │   └── BananaFinder.go
-│   │   └── banana.go
-│   └── db.go                           // db connection and ORM mapping
-├── handler
-│   ├── banana
-│   │   ├── banana.go
-│   │   ├── get_banana_handler.go
-│   │   └── get_banana_handler_test.go
-│   ├── mocks
-│   │   └── URLParamReader.go
-│   └── handler.go                      // business logic
-├── log
-│   └── log.go
-├── migrations                          // db migrations
-│   └── 00001_banana_fixtures.sql
-├── Dockerfile                          // Docker setup
+│   │   │   └── url_param_reader.go
+│   │   └── handler.go
+│   └── log
+│       └── log.go
+├── resources
+│   └── migrations
+│       └── 00001_banana_fixtures.sql
+├── Dockerfile
 ├── Dockerfile-MariaDB
-├── Makefile                            // Project setup
+├── Makefile
 ├── README.md
-├── db_schema_setup.sql                 // db schema setup
+├── db_schema_setup.sql
 ├── docker-compose.yml
 ├── glide.lock
 ├── glide.yaml
-└── main.go                             // app entry point
+└── main.go
 ```
 
 Consideration Points
