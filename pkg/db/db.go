@@ -2,8 +2,9 @@ package db
 
 import (
 	"database/sql"
-	"fmt"
 	"time"
+
+	"github.com/pkg/errors"
 
 	"github.com/go-gorp/gorp"
 	_ "github.com/go-sql-driver/mysql"
@@ -16,21 +17,21 @@ const maxConnectAttempts = 5
 
 // NewDB returns
 func NewDB(dsn string, maxOpen, maxIdle, attempt int) (*gorp.DbMap, error) {
-	errfmt := "NewDB: %s"
+	errctx := "NewDB"
 
 	conn, err := sql.Open("mysql", dsn)
 	if err != nil {
-		return nil, fmt.Errorf(errfmt, err)
+		return nil, errors.Wrap(err, errctx)
 	}
 
 	if err := conn.Ping(); err != nil {
 		if attempt < maxConnectAttempts {
-			log.Error.Printf(errfmt, err)
+			log.Error.Printf("%s: %s", errctx, err)
 			time.Sleep(time.Second)
 			return NewDB(dsn, maxOpen, maxIdle, attempt+1)
 		}
 
-		return nil, fmt.Errorf(errfmt, err)
+		return nil, errors.Wrap(err, errctx)
 	}
 
 	conn.SetMaxOpenConns(maxOpen)

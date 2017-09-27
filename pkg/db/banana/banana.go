@@ -1,7 +1,7 @@
 package banana
 
 import (
-	"fmt"
+	"github.com/pkg/errors"
 
 	"github.com/go-gorp/gorp"
 )
@@ -56,7 +56,7 @@ func (m *bananaManager) Find(ID uint64) (*Banana, error) {
 	var b Banana
 
 	if err := m.dbMap.SelectOne(&b, "SELECT id, name FROM banana WHERE id = ?", ID); err != nil {
-		return nil, fmt.Errorf("bananaManager.Find: %s", err)
+		return nil, errors.Wrap(err, "bananaManager.Find")
 	}
 	return &b, nil
 }
@@ -64,14 +64,14 @@ func (m *bananaManager) Find(ID uint64) (*Banana, error) {
 func (m *bananaManager) Update(b *Banana) error {
 	_, err := m.dbMap.Update(b)
 	if err != nil {
-		return fmt.Errorf("bananaManager.Update: %s", err)
+		return errors.Wrap(err, "bananaManager.Update")
 	}
 	return nil
 }
 
 func (m *bananaManager) Insert(b *Banana) error {
 	if err := m.dbMap.Insert(b); err != nil {
-		return fmt.Errorf("bananaManager.Insert: %s", err)
+		return errors.Wrap(err, "bananaManager.Insert")
 	}
 	return nil
 }

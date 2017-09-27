@@ -1,9 +1,8 @@
 package config
 
 import (
-	"fmt"
-
 	"github.com/kelseyhightower/envconfig"
+	"github.com/pkg/errors"
 )
 
 // Config holds application configs
@@ -16,8 +15,9 @@ type Config struct {
 // and returns an Config instance
 func NewConfig() (*Config, error) {
 	var cfg Config
+
 	if err := envconfig.Process("", &cfg); err != nil {
-		return nil, fmt.Errorf("NewConfig: %s", err)
+		return nil, errors.Wrap(err, "NewConfig")
 	}
 	return &cfg, nil
 }

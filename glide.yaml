@@ -10,3 +10,5 @@ import:
   version: ~1.3.0
 - package: github.com/stretchr/testify
   version: 890a5c3458b43e6104ff5da8dfa139d013d77544
+- package: github.com/pkg/errors
+  version: 645ef00459ed84a119197bfb8d8205042c6df63d

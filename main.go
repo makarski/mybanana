@@ -17,7 +17,7 @@ import (
 func main() {
 	cfg, err := config.NewConfig()
 	if err != nil {
-		log.Error.Fatal(err)
+		log.Error.Panic(err)
 	}
 
 	dbMap, err := db.NewDB(cfg.MySQLDSN, 5, 5, 0)
