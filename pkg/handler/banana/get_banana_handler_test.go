@@ -1,6 +1,7 @@
 package banana
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -28,8 +29,9 @@ func TestGetBananaHandler(t *testing.T) {
 		expectedBanana := &Banana{}
 		expectedBanana.fromDB(expectedDBBanana)
 
-		expectedJSON, err := json.Marshal([]*Banana{expectedBanana})
-		assert.Nil(t, err)
+		var expectedJSON bytes.Buffer
+		err := json.NewEncoder(&expectedJSON).Encode([]*Banana{expectedBanana})
+		assert.NoError(t, err)
 
 		req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("http://somehost/bananas/%d", expectedID), nil)
 		assert.Nil(t, err)
@@ -38,7 +40,7 @@ func TestGetBananaHandler(t *testing.T) {
 		urlReader.On("Read", req, "bananaID").Return(fmt.Sprintf("%d", expectedID))
 
 		bananaHandler.ServeHTTP(w, req)
-		assert.JSONEq(t, string(expectedJSON), w.Body.String())
+		assert.JSONEq(t, expectedJSON.String(), w.Body.String())
 	})
 
 	t.Run("Bad Request: Invalid ID", func(t *testing.T) {
@@ -48,8 +50,12 @@ func TestGetBananaHandler(t *testing.T) {
 
 		urlReader.On("Read", req, "bananaID").Return("abcd")
 
+		var expectedResponse bytes.Buffer
+		err = json.NewEncoder(&expectedResponse).Encode(map[string]string{"description": "invalid banana ID provided"})
+		assert.NoError(t, err)
+
 		bananaHandler.ServeHTTP(w, req)
 		assert.Equal(t, http.StatusBadRequest, w.Code)
-		assert.Contains(t, w.Body.String(), "invalid banana ID provided")
+		assert.JSONEq(t, expectedResponse.String(), w.Body.String())
 	})
 }

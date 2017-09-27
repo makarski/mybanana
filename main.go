@@ -12,6 +12,7 @@ import (
 	"github.com/makarski/mybanana/pkg/handler"
 	"github.com/makarski/mybanana/pkg/handler/banana"
 	"github.com/makarski/mybanana/pkg/log"
+	"github.com/makarski/mybanana/pkg/middleware"
 )
 
 func main() {
@@ -29,6 +30,16 @@ func main() {
 	urlReader := handler.NewURLParamReader()
 
 	router := chi.NewRouter()
+	// We want to have a unified JSON response
+	// for Not Found responses as well
+	router.NotFound(handler.NotFound)
+
+	// We set middlewares we want to use
+	router.Use(
+		middleware.ContentTypeJSON,
+	)
+
+	// We define our routes
 	router.Route("/bananas", func(r chi.Router) {
 		r.Get("/{bananaID:[0-9]+}", banana.NewGetBananaHandler(bananaFinder, urlReader).ServeHTTP)
 	})

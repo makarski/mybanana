@@ -37,27 +37,23 @@ func (h *GetBananaHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	bananaID, err := strconv.ParseUint(bananaIDStr, 10, 64)
 	if err != nil {
 		log.Error.Printf(errfmt, err)
-		http.Error(w, "invalid banana ID provided", http.StatusBadRequest)
+		handler.Error(w, "invalid banana ID provided", http.StatusBadRequest)
 		return
 	}
 
 	dbBanana, err := h.finder.Find(bananaID)
 	if err != nil {
 		log.Error.Printf(errfmt, err)
-		http.Error(w, "banana not found", http.StatusNotFound)
+		handler.Error(w, "banana not found", http.StatusNotFound)
 		return
 	}
 
 	banana := &Banana{}
 	banana.fromDB(dbBanana)
 
-	b, err := json.Marshal([]*Banana{banana})
-	if err != nil {
+	if err := json.NewEncoder(w).Encode([]*Banana{banana}); err != nil {
 		log.Error.Printf(errfmt, err)
-		http.Error(w, "serialization error", http.StatusInternalServerError)
+		handler.Error(w, "serialization error", http.StatusInternalServerError)
 		return
 	}
-
-	w.WriteHeader(http.StatusOK)
-	w.Write(b)
 }
