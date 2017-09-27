@@ -9,9 +9,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	dbb "github.com/makarski/mybanana/db/banana"
-	bmock "github.com/makarski/mybanana/db/banana/mocks"
-	hmock "github.com/makarski/mybanana/handler/mocks"
+	dbb "github.com/makarski/mybanana/pkg/db/banana"
+	bmock "github.com/makarski/mybanana/pkg/db/banana/mocks"
+	hmock "github.com/makarski/mybanana/pkg/handler/mocks"
 )
 
 func TestGetBananaHandler(t *testing.T) {

@@ -6,12 +6,12 @@ import (
 
 	"github.com/go-chi/chi"
 
-	"github.com/makarski/mybanana/config"
-	"github.com/makarski/mybanana/db"
-	dbb "github.com/makarski/mybanana/db/banana"
-	"github.com/makarski/mybanana/handler"
-	"github.com/makarski/mybanana/handler/banana"
-	"github.com/makarski/mybanana/log"
+	"github.com/makarski/mybanana/pkg/config"
+	"github.com/makarski/mybanana/pkg/db"
+	dbb "github.com/makarski/mybanana/pkg/db/banana"
+	"github.com/makarski/mybanana/pkg/handler"
+	"github.com/makarski/mybanana/pkg/handler/banana"
+	"github.com/makarski/mybanana/pkg/log"
 )
 
 func main() {

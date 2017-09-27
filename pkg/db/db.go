@@ -5,12 +5,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/makarski/mybanana/log"
-
 	"github.com/go-gorp/gorp"
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/makarski/mybanana/db/banana"
+	"github.com/makarski/mybanana/pkg/db/banana"
+	"github.com/makarski/mybanana/pkg/log"
 )
 
 const maxConnectAttempts = 5

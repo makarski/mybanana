@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/makarski/mybanana/db/banana"
+	"github.com/makarski/mybanana/pkg/db/banana"
 )
 
 type (

@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strconv"
 
-	db "github.com/makarski/mybanana/db/banana"
-	"github.com/makarski/mybanana/handler"
-	"github.com/makarski/mybanana/log"
+	db "github.com/makarski/mybanana/pkg/db/banana"
+	"github.com/makarski/mybanana/pkg/handler"
+	"github.com/makarski/mybanana/pkg/log"
 )
 
 type (
