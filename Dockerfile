@@ -1,4 +1,4 @@
-FROM golang:1.8.3-alpine
+FROM golang:1.14.6-alpine3.12
 
 RUN apk add --update make git
 ADD ./ ./src/github.com/makarski/mybanana
